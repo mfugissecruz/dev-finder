@@ -9,4 +9,6 @@ Route::post('/', [AuthenticatedSessionController::class, 'store'])->name('login.
 
 Route::middleware(Authenticate::class)->group(function () {
     Route::get('dashboard', fn() => view('dashboard'))->name('dashboard');
+
+    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });
