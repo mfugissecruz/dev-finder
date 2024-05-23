@@ -85,6 +85,7 @@ return [
         PropertyTypeHintSniff::class,
         ReturnTypeHintSniff::class,
         UselessFunctionDocCommentSniff::class,
+        PHP_CodeSniffer\Standards\Generic\Sniffs\Files\LineLengthSniff::class,
     ],
 
     'config' => [
