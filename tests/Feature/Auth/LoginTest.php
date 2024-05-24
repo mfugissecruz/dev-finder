@@ -19,7 +19,7 @@ test('page::login - it can successfully log in a user', function () {
     ])->assertRedirectToRoute('dashboard');
 });
 
-test('page::login - prevent access for non-registered users', function () {
+test('page::login - deny access for non-registered users', function () {
     post(route('login.store'), [
         'email' => 'joe@doe',
         'password' => 'password',
