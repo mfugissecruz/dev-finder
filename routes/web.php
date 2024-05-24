@@ -12,7 +12,7 @@ Route::middleware(Authenticate::class)->group(function () {
     Route::get('dashboard', fn () => view('dashboard'))->name('dashboard');
 
     Route::prefix('user')->name('user.')->group(function () {
-        Route::get('index', User\IndexController::class)->name('index');
+        Route::get('/', User\IndexController::class)->name('index');
 
         Route::controller(User\CreateController::class)->group(function () {
             Route::get('create', 'create')->name('create');
