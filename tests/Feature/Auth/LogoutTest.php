@@ -9,5 +9,5 @@ test('action::logout - it can successfully log out a user', function () {
 
     actingAs($user)
         ->post(route('logout'))
-        ->assertRedirect(route('login.view'));
+        ->assertRedirect(route('login'));
 });

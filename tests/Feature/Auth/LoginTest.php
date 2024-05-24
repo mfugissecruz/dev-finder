@@ -6,7 +6,7 @@ use function Pest\Laravel\get;
 use function Pest\Laravel\post;
 
 test('page::login - it should display the login page', function () {
-    get(route('login.view'))
+    get(route('login'))
         ->assertSuccessful();
 });
 
@@ -23,7 +23,7 @@ test('page::login - deny access for non-registered users', function () {
     post(route('login.store'), [
         'email' => 'joe@doe',
         'password' => 'password',
-    ])->assertRedirectToRoute('login.view')
+    ])->assertRedirectToRoute('login')
         ->assertSessionHasErrors([
             'email' => trans('auth.failed'),
         ]);
