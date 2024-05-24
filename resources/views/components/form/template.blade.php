@@ -1,9 +1,7 @@
-@props(['action', 'method' => 'POST', 'button' => 'Salvar'])
-<form method="POST" action="{{ $action }}" {{ $attributes }}>
+@props(['action'])
+<form method="POST" action="{{ $action }}" {{ $attributes }} class="container mx-auto shadow-md py-8 px-6 rounded-md">
     @csrf
-    {{ $slot }}
-
-    <x-form.button-submit>
-        {{ $button }}
-    </x-form.button-submit>
+    <div class="border-b border-gray-900/10 pb-12 space-y-4">
+        {{ $slot }}
+    </div>
 </form>

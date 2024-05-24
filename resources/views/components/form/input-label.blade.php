@@ -1,9 +1,9 @@
 @props(['required' => false])
-<label {{ $attributes }}>
+<label {{ $attributes->merge(['class' => 'block text-sm font-medium leading-6 text-gray-900']) }} >
     <span>
         <span>{{ $slot }}</span>
         @if ($required)
-            <span>*</span>
+            <span class="text-red-700">*</span>
         @endif
     </span>
 </label>
