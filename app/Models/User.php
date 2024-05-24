@@ -39,6 +39,14 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public function role(): string
+    {
+        return match ($this->role) {
+            'cto' => 'Chief Technology Officer',
+            'default' => 'User',
+        };
+    }
+
     /**
      * Get the attributes that should be cast.
      *
