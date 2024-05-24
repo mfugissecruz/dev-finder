@@ -19,6 +19,16 @@ test('page::login - it can successfully log in a user', function () {
     ])->assertRedirectToRoute('dashboard');
 });
 
+test('page::login - prevent access for non-registered users', function () {
+    post(route('login.store'), [
+        'email' => 'joe@doe',
+        'password' => 'password',
+    ])->assertRedirectToRoute('login.view')
+        ->assertSessionHasErrors([
+            'email' => trans('auth.failed'),
+        ]);
+});
+
 test('page::login - email is required', function () {
     post(route('login.store'), [
         'email' => '',
