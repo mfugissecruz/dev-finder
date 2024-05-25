@@ -3,14 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 /**
- * @param int $id
- * @param string $name
- * @param string $email
- * @param string $role
+ * @param  int  $id
+ * @param  string  $name
+ * @param  string  $email
+ * @param  string  $role
  */
 class User extends Authenticatable
 {
@@ -34,10 +35,15 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    protected $hidden = ['password'];
+
+    /**
+     * @return BelongsToMany<Developer>
+     */
+    public function favorites(): BelongsToMany
+    {
+        return $this->belongsToMany(Developer::class, Favorite::class);
+    }
 
     public function role(): string
     {

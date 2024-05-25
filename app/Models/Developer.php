@@ -65,6 +65,11 @@ class Developer extends Model implements DeveloperContract
         return $this->hasMany(Favorite::class);
     }
 
+    /**
+     * The users that belong to the developer.
+     *
+     * @return BelongsToMany<User>
+     */
     public function sharedWith(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'developer_user', 'developer_id', 'user_id');

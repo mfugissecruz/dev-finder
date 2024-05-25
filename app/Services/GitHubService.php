@@ -2,9 +2,10 @@
 
 namespace App\Services;
 
+use App\Action\UpdateOrCreateDeveloper;
+use App\Helper\DeveloperFomatted;
 use App\Helper\ValidateType;
 use App\Models\Developer;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Client\ConnectionException;
@@ -56,33 +57,16 @@ class GitHubService
     /**
      * Store developer in the database
      *
-     * @param  array<string, mixed>  $developerData
+     * @param  array<string, mixed>  $developer_data
+     *
      * @param  int  $userId
+     *
      * @return Builder|Model
      */
-    public static function storeDeveloper(array $developerData, int $userId): Builder|Model
+    public static function storeDeveloper(array $developer_data, int $userId): Builder|Model
     {
-        $developer = Developer::updateOrCreate(
-            ['github_id' => $developerData['id']],
-            [
-                'name' => $developerData['name'] ?? null,
-                'login' => $developerData['login'],
-                'node_id' => $developerData['node_id'],
-                'avatar_url' => $developerData['avatar_url'],
-                'github_url' => $developerData['html_url'],
-                'email' => $developerData['email'] ?? null,
-                'blog' => $developerData['blog'] ?? null,
-                'bio' => $developerData['bio'] ?? null,
-                'company' => $developerData['company'] ?? null,
-                'location' => $developerData['location'] ?? null,
-                'public_repos' => $developerData['public_repos'] ?? 0,
-                'following' => $developerData['following'] ?? 0,
-                'followers' => $developerData['followers'] ?? 0,
-                'github_created_at' => isset($developerData['created_at']) ? Carbon::parse($developerData['created_at'])->format('Y-m-d H:i:s') : null,
-                'last_synced_at' => Carbon::now()->format('Y-m-d H:i:s'),
-            ]
-        );
-
+        /** @var Developer $developer */
+        $developer = UpdateOrCreateDeveloper::handle($developer_data);
         $developer->favorites()->updateOrCreate(['user_id' => $userId]);
 
         return $developer;
@@ -96,15 +80,15 @@ class GitHubService
         $query = 'type:user';
 
         if ($username) {
-            $query .= " $username in:login";
+            $query .= " {$username} in:login";
         }
 
         if ($language) {
-            $query .= " language:$language";
+            $query .= " language:{$language}";
         }
 
         if ($location) {
-            $query .= " location:$location";
+            $query .= " location:{$location}";
         }
 
         return $query;
@@ -139,30 +123,16 @@ class GitHubService
      * Map response to Developer models
      *
      * @param  array{items: array<int, array<string, mixed>>}  $response
+     *
      * @return Collection<int, Developer>
      */
     private static function mapResponseToDevelopers(array $response): Collection
     {
         return collect($response['items'])
             ->map(function (array $developer): Developer {
-                $details = self::developerDetails($developer['login']);
-                return new Developer([
-                    'github_id' => $developer['id'],
-                    'login' => $developer['login'],
-                    'name' => $details['name'] ?? null,
-                    'node_id' => $developer['node_id'],
-                    'avatar_url' => $developer['avatar_url'],
-                    'github_url' => $developer['html_url'],
-                    'email' => $details['email'] ?? null,
-                    'blog' => $details['blog'] ?? null,
-                    'bio' => $details['bio'] ?? null,
-                    'company' => $details['company'] ?? null,
-                    'location' => $details['location'] ?? null,
-                    'public_repos' => $details['public_repos'] ?? 0,
-                    'following' => $details['following'] ?? 0,
-                    'followers' => $details['followers'] ?? 0,
-                    'github_created_at' => $details['created_at'] ?? null,
-                ]);
+                $details = self::developerDetails(ValidateType::string($developer['login']));
+
+                return new Developer(DeveloperFomatted::handle($developer, $details));
             });
     }
 

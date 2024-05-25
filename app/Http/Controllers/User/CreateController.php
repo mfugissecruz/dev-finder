@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Helper\IsString;
+use App\Helper\ValidateType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\StoreRequest;
 use App\Models\User;
@@ -22,7 +22,7 @@ class CreateController extends Controller
     public function store(StoreRequest $request): RedirectResponse
     {
         $request->validated();
-        $password = IsString::validate($request->input('password'));
+        $password = ValidateType::string($request->input('password'));
 
         User::query()->create([
             'name' => $request->input('name'),

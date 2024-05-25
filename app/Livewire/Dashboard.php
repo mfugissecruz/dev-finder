@@ -86,8 +86,8 @@ class Dashboard extends Component
         );
     }
 
-    public function sharedDeveloper(int $developer_id): void
-    {
-        // Implement shared developer logic
-    }
+//    public function sharedDeveloper(int $developer_id): void
+//    {
+//        // Implement shared developer logic
+//    }
 }
