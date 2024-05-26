@@ -1,0 +1,14 @@
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #1f2937; /* bg-zinc-900 */
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #4b5563; /* bg-zinc-700 */
+    border-radius: 20px;
+    border: 3px solid #1f2937; /* bg-zinc-900 */
+}
