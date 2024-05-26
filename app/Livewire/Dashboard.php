@@ -9,11 +9,12 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class Dashboard extends Component
 {
-    public int $per_page = 9;
+    public int $per_page = 12;
 
     public ?string $username = null;
 
@@ -61,7 +62,7 @@ class Dashboard extends Component
     /**
      * @throws ConnectionException
      */
-    public function favoriteDeveloper(string $username): void
+    public function favorite(string $username): void
     {
         $developer = $this->github->developerDetails($username);
 
@@ -71,11 +72,22 @@ class Dashboard extends Component
 
             $this->github->storeDeveloper($developer, $user->id);
         }
+
+        $this->render();
     }
 
     /**
      * @throws ConnectionException
      */
+    public function search(): void
+    {
+        $this->dispatch('fetching::developer');
+    }
+
+    /**
+     * @throws ConnectionException
+     */
+    #[On('fetch::developer')]
     public function fetchDevelopers(): void
     {
         $this->developers = $this->github->developers(
@@ -84,6 +96,8 @@ class Dashboard extends Component
             $this->location,
             $this->per_page,
         );
+
+        $this->dispatch('fetched::developer');
     }
 
     //    public function sharedDeveloper(int $developer_id): void

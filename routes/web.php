@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\User;
+use App\Livewire\Dashboard;
+use App\Livewire\Favorites;
 use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
 
@@ -9,7 +11,8 @@ Route::get('/', [AuthenticatedSessionController::class, 'create'])->name('login'
 Route::post('/', [AuthenticatedSessionController::class, 'store'])->name('login.store');
 
 Route::middleware(Authenticate::class)->group(function () {
-    Route::get('dashboard', fn () => view('dashboard'))->name('dashboard');
+    Route::get('dashboard', Dashboard::class)->name('dashboard');
+    Route::get('favorites', Favorites::class)->name('favorites');
 
     Route::prefix('user')->name('user.')->group(function () {
         Route::get('/', User\IndexController::class)->name('index');
