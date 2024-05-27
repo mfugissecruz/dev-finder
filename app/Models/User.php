@@ -42,7 +42,7 @@ class User extends Authenticatable
      */
     public function favorites(): BelongsToMany
     {
-        return $this->belongsToMany(Developer::class, Favorite::class);
+        return $this->belongsToMany(Developer::class, Favorite::class, 'user_id', 'developer_github_id');
     }
 
     public function role(): string

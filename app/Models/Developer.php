@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * @property int $id
@@ -31,6 +32,8 @@ class Developer extends Model implements DeveloperContract
 {
     use DeveloperData;
     use HasFactory;
+
+    protected $appends = ['is_favorite'];
 
     /**
      * The attributes that are mass assignable.
@@ -62,7 +65,7 @@ class Developer extends Model implements DeveloperContract
      */
     public function favorites(): HasMany
     {
-        return $this->hasMany(Favorite::class);
+        return $this->hasMany(Favorite::class, 'developer_github_id', 'github_id');
     }
 
     /**
@@ -72,6 +75,18 @@ class Developer extends Model implements DeveloperContract
      */
     public function sharedWith(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'developer_user', 'developer_id', 'user_id');
+        return $this->belongsToMany(User::class, 'developer_user', 'github_id', 'user_id');
+    }
+
+    /**
+     * Determine if the developer is favorited by the authenticated user.
+     */
+    public function getIsFavoriteAttribute(): bool
+    {
+        if (! Auth::check()) {
+            return false;
+        }
+
+        return $this->favorites()->where('user_id', Auth::id())->exists();
     }
 }
