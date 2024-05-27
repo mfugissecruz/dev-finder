@@ -7,10 +7,10 @@
     <title>{{ config('app.name') }}</title>
     @vite(['resources/js/app.js', 'resources/css/app.css'])
 </head>
-<body class="bg-zinc-950 text-zinc-200 h-dvh overflow-hidden">
+<body x-cloack x-data class="bg-zinc-950 text-zinc-200 h-dvh overflow-hidden">
     <!-- Navbar -->
     @auth
-        <nav id="navbar" class="bg-zinc-900 p-4 shadow-md fixed top-0 w-full transition-opacity duration-300 z-50">
+        <nav id="navbar" class="bg-zinc-900 p-4 shadow-md fixed top-0 w-full transition-opacity duration-300 z-40">
             <div class="flex justify-between items-center">
                 <a href="#" class="text-xl font-bold">Logo</a>
                 <ul class="flex space-x-6 items-center">
@@ -23,8 +23,8 @@
     @endauth
 
     <!-- Main Content -->
-    <div class="pt-20 pb-10 h-full overflow-y-auto">
-        <div id="loader" class="fixed inset-0 bg-zinc-800 bg-opacity-75 flex items-center justify-center hidden">
+    <div class="py-20 h-full overflow-y-auto">
+        <div id="loader" class="fixed inset-0 z-50 bg-zinc-800 bg-opacity-75 flex items-center justify-center hidden">
             <div class="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-zinc-200"></div>
         </div>
 
@@ -32,5 +32,7 @@
             {{ $slot }}
         </div>
     </div>
+    <!-- Footer -->
+    <x-footer />
 </body>
 </html>
