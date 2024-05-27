@@ -6,14 +6,13 @@ use App\Action\UpdateOrCreateDeveloper;
 use App\Helper\DeveloperFomatted;
 use App\Helper\ValidateType;
 use App\Models\Developer;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use RuntimeException;
 
-/**
- * Class GithubService
- */
 class GitHubService
 {
     /**
@@ -23,7 +22,7 @@ class GitHubService
      *
      * @throws ConnectionException
      */
-    public static function developers(?string $username = null, ?string $language = null, ?string $location = null, int $per_page = 6): Collection
+    public static function developers(?string $username = null, ?string $language = null, ?string $location = null, int $per_page = 9): Collection
     {
         $query = self::buildQuery($username, $language, $location);
         $response = self::getResponse($query, $per_page);
@@ -55,19 +54,12 @@ class GitHubService
     /**
      * Store developer in the database
      *
-     * @param array<string, mixed> $developer_data
-     *
-     * @param int $userId
-     *
-     * @return Developer
+     * @param  array<string, mixed>  $developer_data
+     * @return Builder<Model>|Model
      */
-    public static function storeDeveloper(array $developer_data, int $userId): Developer
+    public static function storeDeveloper(array $developer_data): Builder|Model
     {
-        /** @var Developer $developer */
-        $developer = UpdateOrCreateDeveloper::handle($developer_data);
-        $developer->favorites()->updateOrCreate(['user_id' => $userId]);
-
-        return $developer;
+        return UpdateOrCreateDeveloper::handle($developer_data);
     }
 
     /**
@@ -121,7 +113,6 @@ class GitHubService
      * Map response to Developer models
      *
      * @param  array{items: array<int, array<string, mixed>>}  $response
-     *
      * @return Collection<int, Developer>
      */
     private static function mapResponseToDevelopers(array $response): Collection
