@@ -20,7 +20,7 @@ class Favorite extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = ['user_id', 'developer_id'];
+    protected $fillable = ['user_id', 'developer_github_id'];
 
     /**
      * Get the developer that is favorited.
