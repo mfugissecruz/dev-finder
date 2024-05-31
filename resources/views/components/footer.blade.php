@@ -1,6 +1,6 @@
 <!-- Footer -->
-<footer id="navbar" class="bg-zinc-900 py-2.5 px-4 shadow-md fixed bottom-0 w-full transition-opacity duration-300 z-50">
-    <div class="flex flex-col md:flex-row justify-end items-center">
+<footer id="navbar" class="bg-zinc-900 py-2.5 px-4 shadow-md fixed bottom-0 w-full transition-opacity duration-300 z-40">
+    <div class="flex flex-col md:flex-row justify-center items-center">
         <div class="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-6 items-center">
             @auth
                 <div class="flex items-center space-x-2">

@@ -11,11 +11,13 @@
     <!-- Navbar -->
     @auth
         <nav id="navbar" class="bg-zinc-900 p-4 shadow-md fixed top-0 w-full transition-opacity duration-300 z-40">
-            <div class="flex justify-between items-center">
-                <a href="#" class="text-xl font-bold">Logo</a>
-                <ul class="flex space-x-6 items-center">
-                    <li><a href="{{ route('dashboard') }}" class="hover:text-zinc-300 hover:bg-zinc-800 hover:p-4 hover:rounded-lg">Dashboard</a></li>
-                    <li><a href="{{ route('user.index') }}" class="hover:text-zinc-300 hover:bg-zinc-800 hover:p-4 hover:rounded-lg">Users</a></li>
+            <div class="flex justify-end items-center">
+                <ul class="flex space-x-3 items-center">
+                    @if(auth()->user()->role === 'cto')
+                        <li><a href="{{ route('dashboard') }}" class="text-zinc-300 bg-zinc-800 px-5 py-3 rounded-lg">Dashboard</a></li>
+                        <li><a href="{{ route('favorites') }}" class="text-zinc-300 bg-zinc-800 px-5 py-3 rounded-lg">Favorites</a></li>
+                        <li><a href="{{ route('user.index') }}" class="text-zinc-300 bg-zinc-800 px-5 py-3 rounded-lg">Users</a></li>
+                    @endif
                     <li> <x-button-logout /></li>
                 </ul>
             </div>
@@ -24,7 +26,7 @@
 
     <!-- Main Content -->
     <div class="py-20 h-full overflow-y-auto">
-        <div id="loader" class="fixed inset-0 z-50 bg-zinc-800 bg-opacity-75 flex items-center justify-center hidden">
+        <div id="loader" class="fixed inset-0 z-50 bg-zinc-800 bg-opacity-10 flex items-center justify-center hidden">
             <div class="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-zinc-200"></div>
         </div>
 

@@ -51,7 +51,7 @@
 
                 <!-- Botão de Submit -->
                 <div class="flex items-center justify-end">
-                    <div class="flex items-center">
+                    <div class="flex items-center gap-4">
                         <x-button-link :route="route('user.index')" caption="See Users" />
 
                         <x-form.button-submit class="bg-emerald-500 hover:bg-emerald-600 focus:ring-emerald-500">

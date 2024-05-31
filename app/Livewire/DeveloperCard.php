@@ -45,6 +45,7 @@ class DeveloperCard extends Component
             /** @var User $user */
             $user = Auth::user();
 
+            /** @var Favorite $favorite */
             $favorite = Favorite::query()->where('developer_github_id', $this->developer->github_id)
                 ->where('user_id', $user->id)
                 ->first();
@@ -60,6 +61,6 @@ class DeveloperCard extends Component
 
     public function shareDeveloper(): void
     {
-        $this->dispatch('action::share-developer', login: $this->developer->login);
+        $this->dispatch('action::share-developer', developer: $this->developer->id, show: true);
     }
 }

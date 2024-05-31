@@ -49,7 +49,7 @@
 
                 <!-- Botão de Submit -->
                 <div class="flex items-center justify-end">
-                    <div class="flex items-center">
+                    <div class="flex items-center gap-4">
                         <x-button-link :route="route('user.index')" caption="See Users" />
 
                         @unless(auth()->user()->is($user))
