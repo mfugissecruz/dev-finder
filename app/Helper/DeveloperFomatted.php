@@ -8,7 +8,9 @@ class DeveloperFomatted
      * Format developer data
      *
      * @param  array<string, mixed>  $developer
+     *
      * @param  array<string, mixed>  $details
+     *
      * @return array<string, mixed>
      */
     public static function handle(array $developer, array $details): array

@@ -43,6 +43,32 @@ class GitHubService
     }
 
     /**
+     * @param  array<string, int|string|null>  $params
+     */
+    public function buildQuery(array $params): string
+    {
+        $query = '';
+
+        if (isset($params['username'])) {
+            $query .= "user:{$params['username']} ";
+        }
+
+        if (isset($params['language'])) {
+            $query .= "language:{$params['language']} ";
+        }
+
+        if (isset($params['location'])) {
+            $query .= "location:{$params['location']} ";
+        }
+
+        if (isset($params['since'])) {
+            $query .= "since:{$params['since']} ";
+        }
+
+        return trim($query);
+    }
+
+    /**
      * @param  Collection<int, Developer>  $developers
      *
      * @throws ConnectionException
@@ -58,6 +84,7 @@ class GitHubService
 
     /**
      * @param  array<string, int|string|null>  $params
+     *
      * @return Collection<int, Developer>
      */
     private function getDevelopers(array $params): Collection
@@ -77,32 +104,6 @@ class GitHubService
         }
 
         return collect($response);
-    }
-
-    /**
-     * @param  array<string, int|string|null>  $params
-     */
-    public function buildQuery(array $params): string
-    {
-        $query = '';
-
-        if (! empty($params['username'])) {
-            $query .= "user:{$params['username']} ";
-        }
-
-        if (! empty($params['language'])) {
-            $query .= "language:{$params['language']} ";
-        }
-
-        if (! empty($params['location'])) {
-            $query .= "location:{$params['location']} ";
-        }
-
-        if (! empty($params['since'])) {
-            $query .= "since:{$params['since']} ";
-        }
-
-        return trim($query);
     }
 
     /**
