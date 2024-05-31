@@ -1,17 +1,16 @@
 <div
-    class="size-12"
+    class="size-16 mx-auto"
     x-data="{
             infinityScroll() {
                 const observer = new IntersectionObserver((items) => {
                     items.forEach((item) => {
                         if(item.isIntersecting) {
-                            console.log(item)
-                            @this.loadMore()
+                            $wire.loadMore();
                         }
                     })
                 }, {
-                    threshold: 0.5, // 0 ... 1
-                    rootMargin: '100px'
+                    threshold: 0.5,
+                    rootMargin: '300px'
                 })
                 observer.observe(this.$el)
             }
