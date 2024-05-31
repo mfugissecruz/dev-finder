@@ -27,12 +27,16 @@ use Illuminate\Support\Facades\Auth;
  * @property int $following
  * @property int $followers
  * @property string $github_created_at
+ * @property bool $is_favorite
  */
 class Developer extends Model implements DeveloperContract
 {
     use DeveloperData;
     use HasFactory;
 
+    /**
+     * @var array<int, string>
+     */
     protected $appends = ['is_favorite'];
 
     /**
@@ -75,7 +79,7 @@ class Developer extends Model implements DeveloperContract
      */
     public function sharedWith(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'developer_user', 'github_id', 'user_id');
+        return $this->belongsToMany(User::class, 'shared_profiles', 'github_id', 'user_id');
     }
 
     /**

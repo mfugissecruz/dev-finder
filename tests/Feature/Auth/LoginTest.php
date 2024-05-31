@@ -13,10 +13,16 @@ test('page::login - it should display the login page', function () {
 test('page::login - it can successfully log in a user', function () {
     $user = User::factory()->create();
 
-    post(route('login.store'), [
+    $response = post(route('login.store'), [
         'email' => $user->email,
         'password' => 'password',
-    ])->assertRedirectToRoute('dashboard');
+    ]);
+
+    if ($user->role === 'cto') {
+        $response->assertRedirectToRoute('dashboard');
+    } else {
+        $response->assertRedirectToRoute('default.dashboard');
+    }
 });
 
 test('page::login - deny access for non-registered users', function () {

@@ -5,8 +5,6 @@ namespace App\Action;
 use App\Helper\ValidateType;
 use App\Models\Developer;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 
 class UpdateOrCreateDeveloper
 {
@@ -14,19 +12,17 @@ class UpdateOrCreateDeveloper
      * Store developer in the database
      *
      * @param  array<string, mixed>  $developer_data
-     *
-     * @return Builder|Model
      */
-    public static function handle(array $developer_data): Builder|Model
+    public static function handle(array $developer_data): void
     {
-        return Developer::query()->updateOrCreate(
-            ['github_id' => $developer_data['id']],
+        Developer::query()->updateOrCreate(
+            ['github_id' => $developer_data['github_id']],
             [
                 'name' => $developer_data['name'] ?? null,
                 'login' => $developer_data['login'],
                 'node_id' => $developer_data['node_id'],
                 'avatar_url' => $developer_data['avatar_url'],
-                'github_url' => $developer_data['html_url'],
+                'github_url' => $developer_data['github_url'],
                 'email' => $developer_data['email'] ?? null,
                 'blog' => $developer_data['blog'] ?? null,
                 'bio' => $developer_data['bio'] ?? null,
